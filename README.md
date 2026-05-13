@@ -1,120 +1,96 @@
-# Brainframe Memory Starter
+# memory-starter
 
-**A layered memory system for Claude.**
+A lightweight AI memory system for Claude Projects. Fork this repo, run one script, paste instructions into Claude — done.
 
-Forget less. Re-explain less. Works across multiple projects without bloating your context window.
+**What you get:** Claude that remembers across sessions. Decisions logged. Notes searchable. Works with Claude Pro (web) or Claude Code (CLI).
 
----
-
-## What this is
-
-A fork-and-paste setup that gives Claude a consistent memory architecture across your projects. Based on a six-layer model: universal rules, routers, per-project state, canonical specs, and (optionally) semantic graph memory.
-
-Three tiers:
-
-| Tier | What you get | What you need |
-|------|--------------|---------------|
-| **0** — Files only | Per-project memory, refresh grammar, project switching | Just a GitHub account. 10-min setup. |
-| **1** — Observable | + event log, weekly health report, drift detection | Add a free Supabase project |
-| **2** — Full stack | + semantic graph memory via Graphiti | Self-host Graphiti (~$5/mo VPS) |
-
-**Start at Tier 0.** Upgrade later if you need it.
+**Stack:** GitHub (canonical store) + Supabase free tier (queryable store) + Claude Project instructions (boot surface).
 
 ---
 
-## Quick start (Tier 0, ~10 minutes, no terminal)
+## Quickstart
 
-1. **Fork this repo.** Click "Use this template" → "Create a new repository" → name it something like `memory-{yourname}`. Make it **public** (see note below).
+1. Click **Use this template** → create your own repo (e.g. `my-memory`)
+2. Clone it locally
+3. Run `bash scripts/onboard.sh`
+4. Paste contents of `SYSTEM/PROJECT_INSTRUCTIONS_OWNER.md` into a new Claude Project
+5. Done. Open Claude and type `boot`.
 
-2. **Open `SYSTEM/PROJECT_INSTRUCTIONS.md`** in your new fork. Click the "Raw" button and copy the whole file.
-
-3. **Create a Claude Project** (claude.ai → Projects → New). Paste into Project Instructions. Replace `YOUR_USERNAME/YOUR_FORK` placeholder with your actual repo slug.
-
-4. **Enable GitHub Actions** in your fork (Settings → Actions → General → Allow all actions). This lets you receive update PRs.
-
-5. **Done.** Start a new chat in that Project. Claude will fetch routing on first message.
-
-### Public vs private fork
-
-Claude can read **public** forks directly via `web_fetch`. If you make your fork **private**, you'll need to upload your routing files as Claude Project Knowledge, and re-upload them when they change. Public is the better experience.
+Full guide: [docs/agent-guides/onboarding.md](docs/agent-guides/onboarding.md)
 
 ---
 
-## Adding a new project
-
-1. In your fork on GitHub, navigate to `USER/routing/`.
-2. Click **Add file → Create new file**.
-3. Type `my-project/facts.md` — GitHub creates the folder.
-4. Copy contents from `SYSTEM/templates/facts.md` into it.
-5. Repeat for `preferences.md`, `decisions.md`, `sessions.md`.
-6. Edit `USER/routing/PROJECTS.md` to register the new project name.
-
-Next chat: mention your project by name. Claude detects and fetches the routing.
-
----
-
-## The refresh grammar
-
-Type these into chat to force Claude to refresh its memory:
-
-| Trigger | What it does |
-|---------|--------------|
-| `000` | Reload universal rules + routers |
-| `001` | Reload current project's state |
-| `002` | Full reload, bypass cache |
-| `@projectname` | Use a specific project for this one message |
-| `recall: topic` | Force a Graphiti query (Tier 2 only) |
-
----
-
-## What lives where
+## File Layout
 
 ```
-your-fork/
-├── SYSTEM/                    ← updated by upstream sync
-│   ├── TIER_A.md              Universal rules (always loaded)
-│   ├── TIER_B.md              Routers (tells Claude where to look)
-│   ├── PROJECT_INSTRUCTIONS.md  Paste this into your Claude Project
-│   └── templates/             Starting templates for new projects
-└── USER/                      ← yours, never overwritten
-    ├── README.md
-    └── routing/
-        ├── PROJECTS.md        Your project index
-        └── example-project/   (yours to modify, delete, or model off of)
-            ├── facts.md       IMMUTABLE — edit via ADR only
-            ├── preferences.md MUTABLE — edit at session close
-            ├── decisions.md   APPEND-ONLY — new entries at session close
-            └── sessions.md    ROLLING — auto-managed
+CLAUDE.md                           Boot file — paste into Claude Project instructions
+SYSTEM/                             Template-managed. Never edit manually.
+  GLOBAL_RULES.md                   Claude's universal rules
+  PROJECT_INSTRUCTIONS_OWNER.md     Paste into your Claude Project
+  PROJECT_INSTRUCTIONS_CONTRIBUTOR.md
+  PROJECT_INSTRUCTIONS_READER.md
+USER/                               Yours. Customize freely. Never overwritten by upstream.
+  routing/
+    facts.md                        Immutable facts about your context
+    preferences.md                  How you like Claude to behave
+    decisions.md                    Append-only decision log
+    sessions.md                     Rolling last-5 session summaries
+  people.md                         Collaborators, clients, contacts
+  topics/                           Per-topic folders
+contributions/                      Inbox — contributors write here, owner promotes
+.claude/
+  settings.json                     Claude Code deny rules (Claude Code users only)
+  skills/                           Skill stubs
+scripts/
+  onboard.sh                        One-command setup
+  migrations/
+    001-initial-schema.sql          Supabase schema — idempotent
+docs/
+  agent-guides/
+    memory-architecture.md
+    onboarding.md
+    maintenance.md
 ```
 
-The `USER/` folder is **protected from upstream updates**. Anything you put there is yours permanently.
+---
+
+## Roles
+
+| Role | Can do |
+|------|--------|
+| Owner | Read + write everything. Promotes contributions. |
+| Contributor | Writes to `contributions/` inbox only. |
+| Reader | Read-only queries via Claude. |
+
+Solo? You are the Owner. Skip Contributor and Reader.
 
 ---
 
-## Receiving updates
+## System vs User files
 
-When the upstream template is updated, you'll get a PR in your fork titled `[Template Sync] v1.X.0`. Review the diff, merge if you want the update. Your `USER/` folder is untouched.
+**Never edit `SYSTEM/`.** It receives upstream updates as PRs you review and merge. Your content lives in `USER/`, `contributions/`, and your topics.
 
----
-
-## Upgrade to Tier 1 or Tier 2
-
-See `SYSTEM/upgrades/` once you're comfortable with Tier 0. Tier 1 adds a Supabase event log; Tier 2 adds a self-hosted Graphiti instance for semantic memory. Each tier is sequential — you can't skip from 0 to 2.
+See [Receiving Updates](docs/agent-guides/onboarding.md#receiving-updates).
 
 ---
 
-## Philosophy
+## Requirements
 
-Claude's attention dips in the middle of long conversations (U-shaped curve). This system gives you explicit control over re-injection via `000`/`001`/`002`, a clear separation between immutable facts and mutable preferences, and graceful degradation if any layer fails. You never lose the thread.
+- GitHub account + basic git
+- Supabase account (free tier)
+- Claude Pro or Team plan
+- bash + curl (for onboarding script)
+
+Windows users: run via WSL or follow the manual steps in [docs/agent-guides/onboarding.md](docs/agent-guides/onboarding.md).
 
 ---
 
-## License
+## Surface
 
-MIT. Fork freely, modify, share.
+Claude Code (CLI): full read/write via curl to Supabase REST API. Credentials stored at `~/.config/memory-starter/.env`.
+
+claude.ai Projects (web/mobile): Claude produces SQL or curl commands for you to run. No direct HTTP from the browser session.
 
 ---
 
-**Version:** See `VERSION` file.
-**Spec:** `memory-system-v2.md` and `memory-system-distribution.md` in the upstream canonical repo.
-**Issues:** Open an issue in the upstream `YOUR_MEMORY_MASTER_REPO` repo.
+Built on Brainframe admin memory architecture. Stripped for public distribution.
