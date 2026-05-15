@@ -16,7 +16,7 @@ Four tiers:
 
 ## How
 
-Session start: fetch T2 files from GitHub. Greet with pending contributions count if any.
+Session start: fetch T2 files from GitHub. Greet with pending items count if any.
 Session end: run `quitchat` to write session summary and audit log.
 
 ## Security
@@ -25,11 +25,18 @@ Never hardcode credentials. Never read `.env` files from the project directory. 
 
 ## Skills
 
-Skills live in `.claude/skills/`. Each has a `SKILL.md` with frontmatter. Read the Trust section before executing write skills.
+Skills live in `.claude/skills/`. Each has a `SKILL.md` with frontmatter.
 
-Key skills: `recall`, `decision-recording`, `contribute`, `review-contributions`, `quitchat`
+**Session management:** `quitchat`, `handchat`, `pickup`, `fork-off`
+
+**Thinking and planning:** `brainstorming`, `grill-me`, `spec-writing`, `research-council`, `adr`
+
+**Building and writing:** `prompt-writing`, `design`, `human-writing`
+
+**Intelligence:** `ai-pulse`
 
 ## Version
 
 Memory System v1.0.0 — canonical source: https://github.com/YOUR_ORG/YOUR_MEMORY_STARTER_REPO/blob/main/CLAUDE.md
 If your Claude Project instructions differ from this file, this file wins. Update your Project instructions.
+
