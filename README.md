@@ -93,4 +93,4 @@ claude.ai Projects (web/mobile): Claude produces SQL or curl commands for you to
 
 ---
 
-Built on Brainframe admin memory architecture. Stripped for public distribution.
+A lightweight memory architecture for Claude — battle-tested patterns, open for anyone to use.
