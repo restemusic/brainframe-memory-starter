@@ -1,4 +1,4 @@
-# Claude Project Instructions — Brainframe Memory System
+# Claude Project Instructions — Memory Starter
 
 Paste this entire file into your Claude Project's **Instructions** field. Replace `YOUR_USERNAME/YOUR_FORK` below with your actual GitHub repo slug.
 
@@ -11,7 +11,7 @@ Paste this entire file into your Claude Project's **Instructions** field. Replac
 
 ## MEMORY SYSTEM
 
-This project uses Brainframe Memory v1. State lives in your fork at `YOUR_USERNAME/YOUR_FORK`.
+This project uses Memory Starter v1. State lives in your fork at `YOUR_USERNAME/YOUR_FORK`.
 
 **If the fork is public:** Claude fetches directly via web_fetch.
 **If the fork is private:** upload the relevant files from `USER/routing/{project}/` as Project Knowledge.
@@ -70,7 +70,6 @@ User-typed triggers:
 | `001` | Re-fetch active project's four routing files |
 | `002` | Full refresh, bypass any cache |
 | `@projectname` at start of message | Scope this message to `projectname` |
-| `recall: topic` | Force memory lookup (Tier 2 Graphiti only) |
 
 Automatic refresh at every 15 exchanges: re-inject a condensed Tier A summary at end of turn.
 
