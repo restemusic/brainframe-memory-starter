@@ -3,7 +3,7 @@
 # Exits non-zero if any forbidden term is found in non-.git files
 
 FORBIDDEN=(
-    "YOUR_ORG"
+    "YOUR_GITHUB_USER"
     "YOUR_COMMS_REPO"
     "YOUR_PUBLIC_REPO"
     "Project Owner"

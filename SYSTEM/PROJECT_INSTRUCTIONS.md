@@ -1,6 +1,6 @@
 # Claude Project Instructions — Memory Starter
 
-Paste this entire file into your Claude Project's **Instructions** field. Replace `YOUR_USERNAME/YOUR_FORK` below with your actual GitHub repo slug.
+Paste this entire file into your Claude Project's **Instructions** field. Replace `YOUR_GITHUB_USER/YOUR_REPO` below with your actual GitHub repo slug.
 
 ---
 
@@ -11,7 +11,7 @@ Paste this entire file into your Claude Project's **Instructions** field. Replac
 
 ## MEMORY SYSTEM
 
-This project uses Memory Starter v1. State lives in your fork at `YOUR_USERNAME/YOUR_FORK`.
+This project uses Memory Starter v1. State lives in your fork at `YOUR_GITHUB_USER/YOUR_REPO`.
 
 **If the fork is public:** Claude fetches directly via web_fetch.
 **If the fork is private:** upload the relevant files from `USER/routing/{project}/` as Project Knowledge.
@@ -31,8 +31,8 @@ This project uses Memory Starter v1. State lives in your fork at `YOUR_USERNAME/
 
 ## SESSION START — IN ORDER
 
-1. Fetch `https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_FORK/main/SYSTEM/TIER_B.md`
-2. Fetch `https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_FORK/main/USER/routing/PROJECTS.md`
+1. Fetch `https://raw.githubusercontent.com/YOUR_GITHUB_USER/YOUR_REPO/main/SYSTEM/TIER_B.md`
+2. Fetch `https://raw.githubusercontent.com/YOUR_GITHUB_USER/YOUR_REPO/main/USER/routing/PROJECTS.md`
 3. Stop if either fetch fails. Tell the user.
 
 Report gate:
@@ -51,10 +51,10 @@ Any FAIL = stop. Don't silently fall back to memory.
 
 After session-start gate, read PROJECTS.md. When the user mentions a project by name in their first few messages, fetch:
 
-- `https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_FORK/main/USER/routing/{project}/facts.md`
-- `https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_FORK/main/USER/routing/{project}/preferences.md`
-- `https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_FORK/main/USER/routing/{project}/decisions.md`
-- `https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_FORK/main/USER/routing/{project}/sessions.md`
+- `https://raw.githubusercontent.com/YOUR_GITHUB_USER/YOUR_REPO/main/USER/routing/{project}/facts.md`
+- `https://raw.githubusercontent.com/YOUR_GITHUB_USER/YOUR_REPO/main/USER/routing/{project}/preferences.md`
+- `https://raw.githubusercontent.com/YOUR_GITHUB_USER/YOUR_REPO/main/USER/routing/{project}/decisions.md`
+- `https://raw.githubusercontent.com/YOUR_GITHUB_USER/YOUR_REPO/main/USER/routing/{project}/sessions.md`
 
 If the project the user names isn't in PROJECTS.md: offer to create the routing folder with templates from `SYSTEM/templates/`.
 

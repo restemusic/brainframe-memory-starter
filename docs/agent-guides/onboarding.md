@@ -91,7 +91,7 @@ When a PR arrives from upstream:
 
 If you want to pull updates manually:
 ```bash
-git remote add upstream https://github.com/YOUR_ORG/YOUR_MEMORY_STARTER_REPO.git
+git remote add upstream https://github.com/YOUR_GITHUB_USER/YOUR_REPO.git
 git fetch upstream
 git merge upstream/main --allow-unrelated-histories
 ```

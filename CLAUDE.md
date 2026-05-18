@@ -37,6 +37,6 @@ Skills live in `.claude/skills/`. Each has a `SKILL.md` with frontmatter.
 
 ## Version
 
-Memory System v1.0.0 — canonical source: https://github.com/YOUR_ORG/YOUR_MEMORY_STARTER_REPO/blob/main/CLAUDE.md
+Memory System v1.0.0 — canonical source: https://github.com/YOUR_GITHUB_USER/YOUR_REPO/blob/main/CLAUDE.md
 If your Claude Project instructions differ from this file, this file wins. Update your Project instructions.
 
