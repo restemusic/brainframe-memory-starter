@@ -12,4 +12,4 @@ Register each of your projects here. Claude reads this on session start to know 
 
 - **example-project** — The pre-populated example. Delete when you're comfortable with the structure. Activates when the user mentions: example, demo, sample.
 
-<!-- Add your own projects below. One line each. -->
+- **restemusic** — Reste Music project. Activates when the user mentions: reste, restemusic, reste music.
